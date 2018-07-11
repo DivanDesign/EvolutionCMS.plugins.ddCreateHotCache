@@ -1,0 +1,42 @@
+{
+	"parentIds": [
+		{
+			"label": "Id документа с которого начнется сканирование",
+			"type": "string",
+			"default": "0",
+			"desc": ""
+		}
+	],
+	"depth": [
+		{
+			"label": "Глубина просмотра",
+			"type": "string",
+			"default": "2",
+			"desc": ""
+		}
+	],
+	"filter": [
+		{
+			"label": "SQL where",
+			"type": "string",
+			"default": "#published# = 1 AND #hidemenu# = 0 AND #deleted# = 0",
+			"desc": "Разделитель - #"
+		}
+	],
+	"orderBy": [
+		{
+			"label": "SQL order by",
+			"type": "string",
+			"default": "#menuindex# DESC",
+			"desc": "Разделитель - #"
+		}
+	],
+	"timeout": [
+		{
+			"label": "Максимально позволенное количество секунд на соедение с страницей",
+			"type": "string",
+			"default": "30",
+			"desc": ""
+		}
+	]
+}
