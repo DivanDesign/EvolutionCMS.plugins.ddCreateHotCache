@@ -7,9 +7,9 @@
  * 
  * @uses PHP >= 5.6
  * @uses (MODX)EvolutionCMS.snippets.ddGetDocuments >= 0.9
- * @uses (MODX)EvolutionCMS.libraries.ddTools >= 0.23
+ * @uses (MODX)EvolutionCMS.libraries.ddTools >= 0.40.1
  * 
- * @param $params {array} — Параметры конфигурации плагина.
+ * @param $params {arrayAssociative|stdClass} — Параметры конфигурации плагина.
  * @param $params['parentIds'] {integer|string_commaSeparated} — Id документа с которого начнется сканирование. Default: 0.
  * @param $params['depth'] {integer} — Глубина просмотра. Default: 2.
  * @param $params['orderBy'] {string} — SQL order by. Разделитель - #. Default: '#menuindex# DESC'.
@@ -35,35 +35,23 @@ if($e->name == 'OnSiteRefresh'){
 	);
 	
 	//Prepare params
-	$parentIds =
-		isset($params['parentIds']) ?
-		$params['parentIds'] :
-		0
-	;
-	$depth =
-		isset($params['depth']) ?
-		$params['depth'] :
-		2
-	;
-	$orderBy =
-		isset($params['orderBy']) ?
-		$params['orderBy'] :
-		'#menuindex# DESC'
-	;
-	$filter =
-		isset($params['filter']) ?
-		$params['filter'] :
-		'
-			#published# = 1 AND
-			#hidemenu# = 0 AND
-			#deleted# = 0
-		'
-	;
-	$timeout =
-		isset($params['timeout']) ?
-		$params['timeout'] :
-		30
-	;
+	$params = \DDTools\ObjectTools::extend([
+		'objects' => [
+			//Defaults
+			(object) [
+				'parentIds' => 0,
+				'depth' => 2,
+				'orderBy' => '#menuindex# DESC',
+				'filter' => '
+					#published# = 1 AND
+					#hidemenu# = 0 AND
+					#deleted# = 0
+				',
+				'timeout' => 30
+			],
+			$params
+		]
+	]);
 	
 	//Get required docs
 	$result = $modx->runSnippet(
@@ -71,12 +59,12 @@ if($e->name == 'OnSiteRefresh'){
 		[
 			'provider' => 'parent',
 			'providerParams' => '{
-				"parentIds": "'. $parentIds .'",
-				"depth": "'. $depth .'"
+				"parentIds": "'. $params->parentIds .'",
+				"depth": "'. $params->depth .'"
 			}',
 			'fieldDelimiter' => '#',
-			'filter' => $filter,
-			'orderBy' => $orderBy,
+			'filter' => $params->filter,
+			'orderBy' => $params->orderBy,
 			'outputter' => 'json',
 			'outputFormatParams' => '{
 				"docFields": "id"
@@ -102,7 +90,7 @@ if($e->name == 'OnSiteRefresh'){
 				'',
 				'full'
 			),
-			$timeout,
+			$params->timeout,
 			$fatal
 		);
 	}
