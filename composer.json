@@ -1,0 +1,41 @@
+{
+	"name": "dd/evolutioncms-plugins-ddcreatehotcache",
+	"type": "modxevo-plugin",
+	"version": "0.2.1",
+	"description": "Creates new cache of needed documents after old cashe refreshed.",
+	"keywords": [
+		"modx",
+		"modx evo",
+		"modx evolution",
+		"evo",
+		"evo cms",
+		"evolutioncms",
+		"evolution cms",
+		"dd group",
+		"dd studio",
+		"divandesign",
+		"ddсreateрotсache",
+		"cache",
+		"create cache"
+	],
+	"homepage": "https://code.divandesign.biz/modx/ddсreateрotсache",
+	"authors": [
+		{
+			"name": "DD Group",
+			"email": "code@DivanDesign.biz",
+			"homepage": "https://code.divandesign.biz",
+			"role": "Owner"
+		},
+		{
+			"name": "Ilyas Ronef",
+			"email": "ilyas@DivanDesign.ru",
+			"homepage": "https://ronef.ru",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"dd/evolutioncms-libraries-ddtools": ">=0.23.0",
+		"dd/evolutioncms-snippets-ddgetdocuments": ">=0.9.0"
+	}
+}
