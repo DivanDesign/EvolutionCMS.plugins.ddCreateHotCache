@@ -24,20 +24,20 @@
 $e = &$modx->event;
 
 if($e->name == 'OnSiteRefresh'){
-	//
+	// 
 	@ignore_user_abort(true);
-	//
+	// 
 	@set_time_limit(0);
-	//
+	// 
 	@ini_set(
 		'memory_limit',
 		'1G'
 	);
 	
-	//Prepare params
+	// Prepare params
 	$params = \DDTools\ObjectTools::extend([
 		'objects' => [
-			//Defaults
+			// Defaults
 			(object) [
 				'parentIds' => 0,
 				'depth' => 2,
@@ -53,7 +53,7 @@ if($e->name == 'OnSiteRefresh'){
 		]
 	]);
 	
-	//Get required docs
+	// Get required docs
 	$result = $modx->runSnippet(
 		'ddGetDocuments',
 		[
@@ -82,7 +82,7 @@ if($e->name == 'OnSiteRefresh'){
 		$result as
 		$doc
 	){
-		//Send request
+		// Send request
 		request(
 			$modx->makeUrl(
 				$doc['id'],
@@ -120,49 +120,49 @@ function request(
 ){
 	$ch = curl_init();
 	
-	//URL
+	// URL
 	curl_setopt(
 		$ch,
 		CURLOPT_URL,
 		$url
 	);
-	//
+	// 
 	curl_setopt(
 		$ch,
 		CURLOPT_RETURNTRANSFER,
 		1
 	);
-	//Timeout
+	// Timeout
 	curl_setopt(
 		$ch,
 		CURLOPT_TIMEOUT,
 		$timeout
 	);
 	
-	//Go
+	// Go
 	curl_exec($ch);
-	//Get response code (we don't need anything else)
+	// Get response code (we don't need anything else)
 	$httpCode = curl_getinfo(
 		$ch,
 		CURLINFO_HTTP_CODE
 	);
-	//Done
+	// Done
 	curl_close($ch);
 	
-	//If fail
+	// If fail
 	if($httpCode != 200){
-		//We'll try 3 times
+		// We'll try 3 times
 		if($count < 3){
 			$count++;
 			
-			//TODO: Может быть здесь взять паузу небольшую перед следующей попыткой?
+			// TODO: Может быть здесь взять паузу небольшую перед следующей попыткой?
 			request(
 				$url,
 				$timeout,
 				$result,
 				$count
 			);
-		//Каунтер перевалил 
+		// Каунтер перевалил 
 		}else{
 			$result[$httpCode][] = $url;
 		}
